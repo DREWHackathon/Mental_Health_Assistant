@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList, StyleSheet, Text, View, TouchableOpacity, ScrollView} from 'react-native';
+import {FlatList, StyleSheet, Text, View, MultipleChoice} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 const styles = StyleSheet.create({
@@ -40,8 +40,8 @@ const AnxietyTestPage = () => {
         <Text style={styles.textSecondaryTitle}>
             This is the GAD-7 Anxiety Test.
         </Text>
-      
     </View>
+    
   );
 };
 
