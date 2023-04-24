@@ -3,8 +3,10 @@ import { Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ScreeningTab from './ScreeningTab';
-import ChatbotTab from './ChatBotTab';
+import ChatbotTab from './ChatbotTab';
 import ResourcesTab from './ResourcesTab';
+
+
 
 function HomeScreen() {
   return (
