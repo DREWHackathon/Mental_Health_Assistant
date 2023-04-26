@@ -35,32 +35,15 @@ const ResourcesTab = () => {
 
   return (
     <View style={styles.container}>
-      <FlatList
+      <View>
+          <Text style={styles.textTitle}>
+              Resources
+          </Text>
+          <Text style={styles.textSecondaryTitle}>
+              This tab is under construction. However, However, our AI-Powered chatbot might give you useful information if you ask it.
+          </Text>
+      </View>
 
-        ListHeaderComponent={
-            <View>
-                <Text style={styles.textTitle}>
-                    Resources
-                </Text>
-                <Text style={styles.textSecondaryTitle}>
-                    Recommended tasks
-                </Text>
-            </View>
-        }
-
-        data={[
-          {key: 'Take a screening test', onPressAction: () => navigation.navigate("ScreeningTab")},
-          {key: 'Talk to our ChatGPT-powered chatbot', onPressAction: () => navigation.navigate("ChatbotTab")},
-          {key: 'Find mental health resources', onPressAction: () => navigation.navigate("ResourcesTab")},
-        ]}
-
-        renderItem={({item}) => 
-            <TouchableOpacity onPress={item.onPressAction} >
-                <Text style={styles.item}>{item.key}</Text>
-            </TouchableOpacity>
-        }
-
-      />
 
     </View>
   );

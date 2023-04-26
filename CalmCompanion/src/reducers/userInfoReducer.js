@@ -7,14 +7,12 @@ const initialState = {
 export default function userInfoReducer(state=initialState, action) {
     switch(action.type) {
         case "PUSH_MESSAGE":
-            console.log("PUSH_MESSAGE");
-
             let tempChatHistory = state.chatHistory;
-            if (tempChatHistory.length >= 50) {
-                alert("History too long... Background chat history has been cleared.")
+            if (tempChatHistory.length >= 64) {
+                alert("History too long.")
                 const newState = { 
                     ...state,
-                    chatHistory: []
+                    chatHistory: [{"role": "system", "content": "You are a helpful assistant."}, action.data]
                 }
                 return newState    
             }
