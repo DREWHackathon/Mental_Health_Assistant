@@ -16,16 +16,12 @@ const ChatbotTab = () => {
     const history = userInfoState.chatHistory;
 
     const [messages, setMessages] = useState([]);
-    // const [history, setHistory] = useState([{"role": "system", "content": "You are a helpful assistant."}]);
-
-    // useEffect(() => {
-    //   console.log(history);
-    // }, [history]);
 
     const model = "gpt-3.5-turbo";
-    console.log("Test");
+    // console.log("Test");
     const apiURL = 'https://api.openai.com/v1/chat/completions';
-    console.log(apiKey);
+    const moderationURL = 'https://api.openai.com/v1/moderations';
+    // console.log(apiKey);
     // const [textInput, setTextInput] = useState('');
 
 
@@ -37,45 +33,48 @@ const ChatbotTab = () => {
         
         // Add the user's message to the messages state
         setMessages(previousMessages => GiftedChat.append(previousMessages, userMessage));
-
-        // const messageText = userMessage.text.toLowerCase();
-        // const keywords = ['anxiety', 'depression', 'mental','self', 'help']; // Add more keywords here
-
-        // // Check if the user's message contains a keyword
-        // if(!keywords.some(keword => messageText.includes(keword))){
-        //   // If no keyword is found, send an error message
-        //   const botMessage = {
-        //     _id: Math.random().toString(36).substring(7),
-        //     text: 'Sorry, I only understand messages about mental health',
-        //     createdAt: new Date(),
-        //     user: {
-        //       _id: 2,
-        //       name: 'Calm Companion',
-        //       avatar: 'https://placeimg.com/140/140/any',
-        //     },
-        //   };
-        //   setMessages(previousMessages => GiftedChat.append(previousMessages, botMessage));
-        //   return;
-        // }
+        
+        // Add [moderation]. If the user's message violates the moderation, then send a warning message and return.
+        const moderation_res = await axios.post(moderationURL, {
+          input: userMessage.text}
+          ,{
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`
+          }
+        });
+        console.log(moderation_res);
+    
+        // if moderation_res.results.categories contain any true value, return true associated warning message
+        const categories = moderation_res.data.results[0].categories;
+        const combinedMessage = generateCategoryMessages(categories);
+        if(combinedMessage != '') {
+          console.log("Here comes the combined message");
+          console.log(combinedMessage);
+          const botMessage = {
+            _id: Math.random().toString(36).substring(7),
+            text: combinedMessage,
+            createdAt: new Date(),
+            user: {
+              _id: 2,
+              name: 'Calm Companion',
+            }
+          };
+          setMessages(previousMessages => GiftedChat.append(previousMessages, botMessage));
+          return;
+        }
         
         //add the user message in the correct form to history and send hisotry to the API
-
-
-
         const user_role_msg = generateContent("user", userMessage.text);
-        console.log(user_role_msg);
-        console.log("Here we are adding current role msg to history");
+        
+        // console.log(user_role_msg);
+        // console.log("Here we are adding current role msg to history");
 
         const updatedHistory = [...history, user_role_msg];
 
-        console.log("Here we finished adding current role msg to history");
-        console.log(history);
+        // console.log("Here we finished adding current role msg to history");
+        // console.log(history);
 
-        const finalJSON = generateFinalJSON(model, history);
-        console.log("Here comes the final JSON");
-        console.log(finalJSON);
-        // Send the user's message to OpenAI API if there is a keyword
-        console.log("Here is what before the response log");
         
         const response = await axios.post(apiURL, {
           model: "gpt-3.5-turbo",
@@ -89,26 +88,10 @@ const ChatbotTab = () => {
           }
         });
 
-      //   const response = await axios.post(apiURL, {
-      //     model: "text-davinci-003",
-      //     messages: [{"role": "system", "content": "You are a helpful assistant."}],
-      //     max_tokens: 1024,
-      //     temperature: 0.5,
-      //   }, {
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //       'Authorization': `Bearer ${apiKey}`
-      //     }
-      // })
-        // const response = await axios.post(apiURL, generateFinalJSON(model, history), {
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //     'Authorization': `Bearer ${apiKey}`
-        //   }
-        // });
-        console.log("Here comes the response log");
-        console.log(response.data);
-        console.log("Here comes after the response log");
+
+        // console.log("Here comes the response log");
+        // console.log(response.data);
+        // console.log("Here comes after the response log");
 
 
         const botMessage = {
@@ -123,7 +106,6 @@ const ChatbotTab = () => {
 
         setMessages(previousMessages => GiftedChat.append(previousMessages, botMessage));
         const bot_role_msg = generateContent("assistant", botMessage.text);
-
 
         dispatch(pushMessage(user_role_msg));
         dispatch(pushMessage(bot_role_msg));
@@ -164,57 +146,6 @@ const ChatbotTab = () => {
       </View>
     )
   }
-//       const messages = textInput;
-//       const response = await axios.post(apiURL, {
-//         model: "test-davinci",
-//         messages: messages,
-//         max_tokens: 1024,
-//         temperature: 0.5,
-//       }, {
-//         headers: {
-//           'Content-Type': 'application/json',
-//           'Authorization': `Bearer ${apiKey}`
-//         }
-//     })
-//     const text = response.data.choices[0].text;
-//     console.log(text);
-//     setData([...data, {type: 'user', 'text': textInput}, {type: 'bot', 'text': text}]);
-//     setTextInput('');
-//     };
-//   return (
-//     <View style={styles.container}>
-//         <Text style={styles.title}>Mental Health Assistant</Text>
-//             <FlatList
-//                 data={data}
-//                 keyExtractor={(item, index) => index.toString()}
-//                 style={styles.body}
-//                 renderItem={({item}) => (
-//                   <View style={{flexDirection:'row', padding:10}}>
-//                     <Text style={{fontWeight:'bold', color:item.type === 'user' ? 'green' : 'blue'}}>{item.type === 'user' ? 'DREW' : 'Bot'}</Text>
-//                     <Text style={styles.bot}>{item.text}</Text>
-//                   </View>
-//                 )}
-//               />
-//               <TextInput
-//                 style={styles.input}
-//                 value={textInput}
-//                 onChangeText = { text => setTextInput(text) }
-//                 placeholder="Type here..."
-
-//               />
-//               <TouchableOpacity 
-//                   style={styles.button}
-//                   onPress={handleSend}
-//               >
-//                   <Text style={styles.buttonText}>Send</Text>
-//               </TouchableOpacity> 
-//         {/* <Text style={styles.textSecondaryTitle}>
-//             Recommended tasks
-//         </Text> */}
-      
-//     </View>
-//   );
-// };
 
 export default ChatbotTab;
 
@@ -226,16 +157,32 @@ function generateContent(role, message) {
   };
 }
 
-// Function to generate the final JSON object
-function generateFinalJSON(model, history) {
-  
-  return {
-    model: model,
-    messages: history,
-    max_tokens: 4090,
-    temperature: 0.6,
+
+function generateCategoryMessages(categories) {
+  const categoryMessages = {
+    "hate": "Content that expresses, incites, or promotes hate based on race, gender, ethnicity, religion, nationality, sexual orientation, disability status, or caste.",
+    "hate/threatening": "Hateful content that also includes violence or serious harm towards the targeted group.",
+    "self-harm": "Content that promotes, encourages, or depicts acts of self-harm, such as suicide, cutting, and eating disorders.",
+    "sexual": "Content meant to arouse sexual excitement, such as the description of sexual activity, or that promotes sexual services (excluding sex education and wellness).",
+    "sexual/minors": "Sexual content that includes an individual who is under 18 years old.",
+    "violence": "Content that promotes or glorifies violence or celebrates the suffering or humiliation of others.",
+    "violence/graphic": "Violent content that depicts death, violence, or serious physical injury in extreme graphic detail."
   };
+
+  let combinedMessage = '';
+
+  for(const category in categories) {
+    if(categories[category]){
+      if(combinedMessage === ''){
+        combinedMessage += 'Sorry, you\'re question didn\'t pass the moderation check: ';
+      }
+      combinedMessage += '\n\n';
+      combinedMessage += categoryMessages[category];
+    }
+  }
+  return combinedMessage;
 }
+
 
 const styles = StyleSheet.create({
   container: {
