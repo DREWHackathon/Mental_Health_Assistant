@@ -87,9 +87,9 @@ const DepressionTestPage = () => {
       if (score < 0) score = 0;
       if (score > 27) score = 27;
 
-      const openAINewInstruction = `You're a mental health assistant who specializes in treating anxiety disorder and depression. Based on previous test results, your patient scored a ${score} on the PHQ-9 depression test, which indicates they might have ${results} anxiety. You must give them a report on their test result before responding to the patient.`;
+      const openAINewInstruction = `You're a mental health assistant who specializes in treating anxiety disorder and depression. Based on previous test results, your patient scored a ${score} on the PHQ-9 depression test, which indicates they might have ${results} depression. You must give them a report on their test result before responding to the patient.`;
 
-      dispatch(pushMessage({"role": "system", "content": openAINewInstruction}));
+      dispatch(pushMessage({"role": "assistant", "content": openAINewInstruction}));
 
       alert(
         `According to your inputs, this informal test concludes that you have ${results} depression.

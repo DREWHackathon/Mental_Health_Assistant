@@ -85,7 +85,7 @@ const GAD7AnxietyTestForm = () => {
 
       const openAINewInstruction = `You're a mental health assistant who specializes in treating anxiety disorder and depression. Based on previous test results, your patient scored a ${score} on the GAD-7 anxiety test, which indicates they might have ${results} anxiety. You must give them a report on their test result before responding to the patient.`;
 
-      dispatch(pushMessage({"role": "system", "content": openAINewInstruction}));
+      dispatch(pushMessage({"role": "assistant", "content": openAINewInstruction}));
 
       alert(
         `According to your inputs, this informal test concludes that you have ${results} anxiety.
