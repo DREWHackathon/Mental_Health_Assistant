@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Text, View, TextInput, Button, StyleSheet } from 'react-native';
-import { ScrollView } from 'react-native-web';
-import { updateAnxietyResults } from '../actions/userInfo';
+import { Text, View, TextInput, Button, StyleSheet, ScrollView } from 'react-native';
+import { updateAnxietyResults, pushMessage } from '../actions/userInfo';
 import { useDispatch } from 'react-redux';
 
 const styles = StyleSheet.create({
@@ -67,7 +66,7 @@ const GAD7AnxietyTestForm = () => {
 
     let numberArray = [];
     for (var i = 0; i < Object.values(responses).length; i++) numberArray.push(parseInt(stringArray[i]));
-    const score = numberArray.reduce((a, b) => a + b, 0)
+    let score = numberArray.reduce((a, b) => a + b, 0)
 
     // dispatch(updateAnxietyResults(score));
     let results;
@@ -80,6 +79,13 @@ const GAD7AnxietyTestForm = () => {
       } else if (score >= 15) {
           results = "severe"
       }
+
+      if (score < 0) score = 0;
+      if (score > 21) score = 21;
+
+      const openAINewInstruction = `You're a mental health assistant who specializes in treating anxiety disorder and depression. Based on previous test results, your patient scored a ${score} on the GAD-7 anxiety test, which indicates they might have ${results} anxiety. You must give them a report on their test result before responding to the patient.`;
+
+      dispatch(pushMessage({"role": "system", "content": openAINewInstruction}));
 
       alert(
         `According to your inputs, this informal test concludes that you have ${results} anxiety.
