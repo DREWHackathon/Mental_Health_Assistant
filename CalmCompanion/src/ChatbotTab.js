@@ -28,7 +28,9 @@ const ChatbotTab = () => {
     console.log(apiKey);
     // const [textInput, setTextInput] = useState('');
 
+
     const handleSend = async (newMessages = []) => {
+      console.log("async run...");
       try {
         // Get the user's message
         const userMessage = newMessages[0];
@@ -64,9 +66,7 @@ const ChatbotTab = () => {
         console.log(user_role_msg);
         console.log("Here we are adding current role msg to history");
 
-        
-        // setHistory(previousHistory => [...previousHistory, user_role_msg]);
-        dispatch(pushMessage(user_role_msg));
+        const updatedHistory = [...history, user_role_msg];
 
         console.log("Here we finished adding current role msg to history");
         console.log(history);
@@ -79,7 +79,7 @@ const ChatbotTab = () => {
         
         const response = await axios.post(apiURL, {
           model: "gpt-3.5-turbo",
-          messages: history,
+          messages: updatedHistory,
           max_tokens: 2000,
           temperature: 0.6,
         }, {
@@ -125,8 +125,7 @@ const ChatbotTab = () => {
         const bot_role_msg = generateContent("assistant", botMessage.text);
 
 
-        // setHistory(previousHistory => [...previousHistory, bot_role_msg]);
-
+        dispatch(pushMessage(user_role_msg));
         dispatch(pushMessage(bot_role_msg));
 
 

@@ -8,6 +8,8 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       paddingTop: 75,
+      marginLeft: 15,
+      marginRight: 15,
     },
     item: {
       padding: 15,
@@ -18,16 +20,16 @@ const styles = StyleSheet.create({
     textTitle: {
       fontSize: 45,
       fontWeight: 800,
-      marginLeft: 15,
-      marginRight: 15,
       marginBottom: 15,
     },
     textSecondaryTitle: {
       color: "gray",
       fontSize: 15,
-      marginLeft: 15,
-      marginRight: 15,
       marginBottom: 5,
+    },
+    questionText: {
+      fontSize: 16,
+      fontWeight: 'bold',
     }
   
   });
@@ -39,18 +41,19 @@ const DepressionTestPage = () => {
   return (
     <View style={styles.container}>
 
+
+
         <Text style={styles.textTitle}>
             PHQ-9 Depression Test
         </Text>
         <Text style={styles.textSecondaryTitle}>
-            This is the PHQ-9 Depression Test.
+            This is the PHQ-9 Depression Test.{"\n"}{"\n"}
+            Please keep in mind that these tests are not intended to provide a diagnosis – only trained health professionals should do this. 
         </Text>
 
-        {/* <CheckBox
-    disabled={false}
-    value={toggleCheckBox}
-    onValueChange={(newValue) => setToggleCheckBox(newValue)}
-  /> */}
+        <Text> </Text>
+        <Text style={styles.questionText}>Over the last 2 weeks, how often have you been bothered by any of the following problems?</Text>
+
 
     </View>
     
