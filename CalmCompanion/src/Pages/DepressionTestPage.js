@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
-import {FlatList, StyleSheet, Text, View, TouchableOpacity, ScrollView} from 'react-native';
+import React from 'react';
+import {FlatList, StyleSheet, Text, View, MultipleChoice} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+// import CheckBox from '@react-native-community/checkbox';
+import { useState } from 'react';
 
 const styles = StyleSheet.create({
     container: {
@@ -31,17 +33,27 @@ const styles = StyleSheet.create({
   });
 
 const DepressionTestPage = () => {
+
+  // const [toggleCheckBox, setToggleCheckBox] = useState(false)
+
   return (
     <View style={styles.container}>
 
         <Text style={styles.textTitle}>
-            PHQ-9 Anxiety Test
+            PHQ-9 Depression Test
         </Text>
         <Text style={styles.textSecondaryTitle}>
             This is the PHQ-9 Depression Test.
         </Text>
-      
+
+        {/* <CheckBox
+    disabled={false}
+    value={toggleCheckBox}
+    onValueChange={(newValue) => setToggleCheckBox(newValue)}
+  /> */}
+
     </View>
+    
   );
 };
 

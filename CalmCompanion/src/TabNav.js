@@ -40,7 +40,7 @@ export default function TabNav() {
   return (
     <NavigationContainer>
       <Tab.Navigator>
-        <Tab.Screen name="HomeTab" component={HomeScreen} options={{title:"Home"}}/>
+        <Tab.Screen name="HomeTab" component={HomeScreen} options={{title:"Home"}} />
         <Tab.Screen name="ScreeningTab" component={ScreeningScreen} options={{title:"Screen"}}/>
         <Tab.Screen name="ChatbotTab" component={ChatbotScreen} options={{title:"Chatbot"}}/>
         <Tab.Screen name="ResourcesTab" component={ResourceScreen} options={{title:"Resources"}}/>

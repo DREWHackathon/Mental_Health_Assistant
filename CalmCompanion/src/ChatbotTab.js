@@ -1,28 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {FlatList, StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView} from 'react-native';
 import { GiftedChat} from 'react-native-gifted-chat';
 import axios from 'axios';
 import config from './config.js';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { pushMessage } from './actions/userInfo.js';
+
 const apiKey = config.OPENAI_API_KEY;
 
 const ChatbotTab = () => {
 
+    const dispatch = useDispatch();
+    const userInfoState = useSelector(state => state.userInfo);
+    const history = userInfoState.chatHistory;
+
     const [messages, setMessages] = useState([]);
-    const [history, setHistory] = useState([{"role": "system", "content": "You are a helpful assistant."}]);
+    // const [history, setHistory] = useState([{"role": "system", "content": "You are a helpful assistant."}]);
+
+    // useEffect(() => {
+    //   console.log(history);
+    // }, [history]);
 
     const model = "gpt-3.5-turbo";
     console.log("Test");
     const apiURL = 'https://api.openai.com/v1/chat/completions';
     console.log(apiKey);
     // const [textInput, setTextInput] = useState('');
-    
-    const handleSend = async(newMessages = []) => {
+
+    const handleSend = async (newMessages = []) => {
       try {
         // Get the user's message
         const userMessage = newMessages[0];
         
         // Add the user's message to the messages state
         setMessages(previousMessages => GiftedChat.append(previousMessages, userMessage));
+
         // const messageText = userMessage.text.toLowerCase();
         // const keywords = ['anxiety', 'depression', 'mental','self', 'help']; // Add more keywords here
 
@@ -44,14 +57,20 @@ const ChatbotTab = () => {
         // }
         
         //add the user message in the correct form to history and send hisotry to the API
+
+
+
         const user_role_msg = generateContent("user", userMessage.text);
         console.log(user_role_msg);
         console.log("Here we are adding current role msg to history");
 
-        setHistory(previousHistory => [...previousHistory, user_role_msg]);
+        
+        // setHistory(previousHistory => [...previousHistory, user_role_msg]);
+        dispatch(pushMessage(user_role_msg));
 
         console.log("Here we finished adding current role msg to history");
         console.log(history);
+
         const finalJSON = generateFinalJSON(model, history);
         console.log("Here comes the final JSON");
         console.log(finalJSON);
@@ -104,7 +123,13 @@ const ChatbotTab = () => {
 
         setMessages(previousMessages => GiftedChat.append(previousMessages, botMessage));
         const bot_role_msg = generateContent("assistant", botMessage.text);
-        setHistory(previousHistory => [...previousHistory, bot_role_msg]);
+
+
+        // setHistory(previousHistory => [...previousHistory, bot_role_msg]);
+
+        dispatch(pushMessage(bot_role_msg));
+
+
       } catch(error) {
         console.log(error);
       };

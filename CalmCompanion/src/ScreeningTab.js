@@ -2,6 +2,7 @@ import React from 'react';
 import {FlatList, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import AnxietyTestPage from './Pages/AnxietyTestPage';
 import { createStackNavigator } from '@react-navigation/stack';
+import DepressionTestPage from './Pages/DepressionTestPage';
 
 const Stack = createStackNavigator();
 
@@ -40,9 +41,7 @@ const AnxietyTestScreen = ( {navigation} ) => {
 
 const DepressionTestScreen = ( {navigation} ) => {
     return (
-      <View>
-        <Text>DepressinTest</Text>
-      </View>
+      <DepressionTestPage/>
     )
 }
 
@@ -74,7 +73,7 @@ const ScreenTabHome = ({navigation}) => {
 const ScreeningTab = ( {navigation} ) => {
   return (      
     <Stack.Navigator initialRouteName="ScreenTabHome">
-        <Stack.Screen name="ScreenTabHome" component={ScreenTabHome}/>
+        <Stack.Screen name="ScreenTabHome" component={ScreenTabHome} options={{headerShown: false}}/>
         <Stack.Screen name="GAD7" component={AnxietyTestScreen} />
         <Stack.Screen name="PHQ9" component={DepressionTestScreen} />
     </Stack.Navigator>
