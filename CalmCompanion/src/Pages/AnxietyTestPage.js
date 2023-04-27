@@ -43,13 +43,13 @@ const styles = StyleSheet.create({
 const GAD7AnxietyTestForm = () => {
   const dispatch = useDispatch();
   const [responses, setResponses] = useState({
-    q1: '0',
-    q2: '0',
-    q3: '0',
-    q4: '0',
-    q5: '0',
-    q6: '0',
-    q7: '0',
+    q1: '',
+    q2: '',
+    q3: '',
+    q4: '',
+    q5: '',
+    q6: '',
+    q7: '',
   });
   
   const handleChange = (question, value) => {
@@ -68,7 +68,7 @@ const GAD7AnxietyTestForm = () => {
     for (var i = 0; i < Object.values(responses).length; i++) numberArray.push(parseInt(stringArray[i]));
     let score = numberArray.reduce((a, b) => a + b, 0)
 
-    // dispatch(updateAnxietyResults(score));
+    dispatch(updateAnxietyResults(score));
     let results;
     if (score <= 4) {
           results = "minimal"
@@ -110,7 +110,12 @@ For now, we've handed your screening results to our Chatbot who might provide yo
         <Text> </Text>
 
       <Text style={styles.questionText}>Over the last 2 weeks, how often have you been bothered by the following problems?</Text>
-      
+      <Text>0 - Not at all</Text>
+      <Text>1 - Several days</Text>
+      <Text>2 - More than half the days</Text>
+      <Text>03- Nearly every day</Text>
+
+
       <Text style={styles.questionText}>1. Feeling nervous, anxious or on edge</Text>
       <TextInput
         onChangeText={text => handleChange('q1', text)}

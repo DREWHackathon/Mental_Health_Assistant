@@ -43,15 +43,15 @@ const styles = StyleSheet.create({
 const DepressionTestPage = () => {
   const dispatch = useDispatch();
   const [responses, setResponses] = useState({
-    q1: '0',
-    q2: '0',
-    q3: '0',
-    q4: '0',
-    q5: '0',
-    q6: '0',
-    q7: '0',
-    q8: '0',
-    q9: '0',
+    q1: '',
+    q2: '',
+    q3: '',
+    q4: '',
+    q5: '',
+    q6: '',
+    q7: '',
+    q8: '',
+    q9: '',
   });
   
   const handleChange = (question, value) => {
@@ -114,6 +114,10 @@ For now, we've handed your screening results to our Chatbot who might provide yo
         <Text> </Text>
 
       <Text style={styles.questionText}>Over the last 2 weeks, how often have you been bothered by the following problems?</Text>
+      <Text>0 - Not at all</Text>
+      <Text>1 - Several days</Text>
+      <Text>2 - More than half the days</Text>
+      <Text>03- Nearly every day</Text>
       
       <Text style={styles.questionText}>1. Little interest or pleasure in doing things</Text>
       <TextInput

@@ -40,7 +40,7 @@ const HomeTab = () => {
         ListHeaderComponent={
             <View>
                 <Text style={styles.textTitle}>
-                    Welcome! We're here to help.
+                    Welcome! CalmCompanion is here to help.
                 </Text>
                 <Text style={styles.textSecondaryTitle}>
                     Recommended tasks
