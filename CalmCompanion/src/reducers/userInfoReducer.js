@@ -1,5 +1,5 @@
 const initialState = {
-    chatHistory: [ {"role": "system", "content": "You are a helpful assistant."} ],
+    chatHistory: [ {"role": "system", "content": "You are a mental health assistant."} ],
     anxietyResults: [],
     depressionResults: [],
 }
@@ -12,11 +12,7 @@ export default function userInfoReducer(state=initialState, action) {
             let tempChatHistory = state.chatHistory;
             if (tempChatHistory.length >= 50) {
                 alert("History too long... Background chat history has been cleared.")
-                const newState = { 
-                    ...state,
-                    chatHistory: []
-                }
-                return newState    
+                return initialState;    
             }
 
             const newState = { 

@@ -83,9 +83,15 @@ const GAD7AnxietyTestForm = () => {
       if (score < 0) score = 0;
       if (score > 21) score = 21;
 
-      const openAINewInstruction = `You're a mental health assistant who specializes in treating anxiety disorder and depression. Based on previous test results, your patient scored a ${score} on the GAD-7 anxiety test, which indicates they might have ${results} anxiety. You must give them a report on their test result before responding to the patient.`;
+      // const openAINewInstruction = `You're a mental health assistant who specializes in treating anxiety disorder and depression. Based on previous test results, your patient scored a ${score} on the GAD-7 anxiety test, which indicates they might have ${results} anxiety. You must give them a report on their test result before responding to the patient. And after that all of your responses should be related to mental health.`;
 
-      dispatch(pushMessage({"role": "assistant", "content": openAINewInstruction}));
+      // dispatch(pushMessage({"role": "assistant", "content": openAINewInstruction}));
+
+
+      const openAINewInstruction = `You're a mental health assistant who specializes in treating anxiety disorder and depression. Based on previous test results, I scored a ${score} on the GAD-7 anxiety test, which indicates that I might have ${results} anxiety. You must give me a report on my test result before responding to me. And after that all of your responses should be related to my mental health issues.`;
+
+      dispatch(pushMessage({"role": "user", "content": openAINewInstruction}));
+
 
       alert(
         `According to your inputs, this informal test concludes that you have ${results} anxiety.
@@ -109,7 +115,7 @@ For now, we've handed your screening results to our Chatbot who might provide yo
 
         <Text> </Text>
 
-      <Text style={styles.questionText}>Over the last 2 weeks, how often have you been bothered by the following problems?</Text>
+      <Text style={styles.questionText}>Over the last 2 weeks, how often have you been bothered by the following problems on a scale of 0-3?</Text>
       
       <Text style={styles.questionText}>1. Feeling nervous, anxious or on edge</Text>
       <TextInput

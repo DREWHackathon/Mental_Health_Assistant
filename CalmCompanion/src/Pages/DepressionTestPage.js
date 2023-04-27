@@ -87,9 +87,11 @@ const DepressionTestPage = () => {
       if (score < 0) score = 0;
       if (score > 27) score = 27;
 
-      const openAINewInstruction = `You're a mental health assistant who specializes in treating anxiety disorder and depression. Based on previous test results, your patient scored a ${score} on the PHQ-9 depression test, which indicates they might have ${results} depression. You must give them a report on their test result before responding to the patient.`;
+      // const openAINewInstruction = `You're a mental health assistant who specializes in treating anxiety disorder and depression. Based on previous test results, your patient scored a ${score} on the PHQ-9 depression test, which indicates they might have ${results} depression. You must give them a report on their test result before responding to the patient.`;
+      const openAINewInstruction = `You're a mental health assistant who specializes in treating anxiety disorder and depression. Based on previous test results, I scored a ${score} on the PHQ-9 depression test, which indicates that I might have ${results} depression. You must give me a report on their test result before responding to me. And after that all of your responses should be related to mental health.`;
 
-      dispatch(pushMessage({"role": "assistant", "content": openAINewInstruction}));
+      dispatch(pushMessage({"role": "user", "content": openAINewInstruction}));
+      dispatch(pushMessage({"role": "user", "content": openAINewInstruction}));
 
       alert(
         `According to your inputs, this informal test concludes that you have ${results} depression.
@@ -113,7 +115,7 @@ For now, we've handed your screening results to our Chatbot who might provide yo
 
         <Text> </Text>
 
-      <Text style={styles.questionText}>Over the last 2 weeks, how often have you been bothered by the following problems?</Text>
+      <Text style={styles.questionText}>Over the last 2 weeks, how often have you been bothered by the following problems on a scale of 0-3?</Text>
       
       <Text style={styles.questionText}>1. Little interest or pleasure in doing things</Text>
       <TextInput
