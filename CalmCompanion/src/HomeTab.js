@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
       marginBottom: 1,
     },
     textTitle: {
-      fontSize: 45,
+      fontSize: 30,
       fontWeight: 800,
       marginLeft: 15,
       marginRight: 15,
