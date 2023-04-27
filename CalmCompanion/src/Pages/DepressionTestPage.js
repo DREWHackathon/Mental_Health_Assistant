@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Text, View, TextInput, Button, StyleSheet, ScrollView } from 'react-native';
-import { updateAnxietyResults, pushMessage } from '../actions/userInfo';
+import { updateAnxietyResults, pushMessage, updateDepressionResults } from '../actions/userInfo';
 import { useDispatch } from 'react-redux';
 
 const styles = StyleSheet.create({
@@ -70,7 +70,13 @@ const DepressionTestPage = () => {
     for (var i = 0; i < Object.values(responses).length; i++) numberArray.push(parseInt(stringArray[i]));
     let score = numberArray.reduce((a, b) => a + b, 0)
 
-    // dispatch(updateAnxietyResults(score));
+
+    if (!score && score != 0) {
+      alert("Please follow the input format.");
+      return;
+    }
+
+    dispatch(updateDepressionResults(score));
     let results;
     if (score <= 4) {
       results = "minimal"
@@ -86,6 +92,8 @@ const DepressionTestPage = () => {
 
       if (score < 0) score = 0;
       if (score > 27) score = 27;
+
+
 
       const openAINewInstruction = `You're a mental health assistant who specializes in treating anxiety disorder and depression. Based on previous test results, your patient scored a ${score} on the PHQ-9 depression test, which indicates they might have ${results} depression. You must give them a report on their test result before responding to the patient.`;
 

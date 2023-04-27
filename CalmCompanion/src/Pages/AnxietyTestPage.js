@@ -68,7 +68,13 @@ const GAD7AnxietyTestForm = () => {
     for (var i = 0; i < Object.values(responses).length; i++) numberArray.push(parseInt(stringArray[i]));
     let score = numberArray.reduce((a, b) => a + b, 0)
 
+    if (!score && score != 0) {
+      alert("Please follow the input format.");
+      return;
+    }
+
     dispatch(updateAnxietyResults(score));
+
     let results;
     if (score <= 4) {
           results = "minimal"

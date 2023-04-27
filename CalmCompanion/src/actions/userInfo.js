@@ -9,9 +9,21 @@ export const updateAnxietyResults = (score) => {
         results = "mild"
     } else if (score <= 14) {
         results = "moderate"
-    } else if (score >= 15) {
+    } else {
         results = "severe"
     }
+
+    return (
+        {
+            type: "UPDATE_ANXIETY",
+            data: {
+                score: score,
+                results: results,
+                datetime: getCurrentTime()
+            }
+        }
+    )
+
 }
 
 export const updateDepressionResults = (score) => {

@@ -5,6 +5,7 @@ const initialState = {
 }
 
 export default function userInfoReducer(state=initialState, action) {
+    console.log(JSON.stringify(state))
     switch(action.type) {
         case "PUSH_MESSAGE":
             let tempChatHistory = state.chatHistory;
